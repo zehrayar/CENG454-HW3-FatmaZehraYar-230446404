@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class StraightMovement : MonoBehaviour
+public class StraightMovement : IMovementStrategy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Move(Transform self, Transform target, float speed, float deltaTime)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (target == null) return;
+        Vector3 dir = (target.position - self.position).normalized;
+        self.position += dir * speed * deltaTime;
     }
 }
