@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class BaseWeapon : MonoBehaviour
+
+public class BaseWeapon : IWeapon
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int Damage { get; }
+    public float FireRate { get; }
+
+    public BaseWeapon(int damage = 1, float fireRate = 5f)
     {
-        
+        Damage = damage;
+        FireRate = fireRate;
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Fire(Vector2 origin, Vector2 direction)
     {
-        
+        Bullet b = PoolManager.Instance.BulletPool.Get(origin, Quaternion.identity);
+        b.Launch(direction, Damage, isPiercing: false);
     }
 }

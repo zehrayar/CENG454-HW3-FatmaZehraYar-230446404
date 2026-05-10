@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class WeaponDecorator : MonoBehaviour
+
+public abstract class WeaponDecorator : IWeapon
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected readonly IWeapon inner;
+
+    protected WeaponDecorator(IWeapon inner)
     {
-        
+        this.inner = inner;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public virtual int Damage => inner.Damage;
+    public virtual float FireRate => inner.FireRate;
+    public abstract void Fire(Vector2 origin, Vector2 direction);
 }
