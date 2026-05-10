@@ -1,16 +1,58 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D))]
+public class Bullet : MonoBehaviour, IPoolable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private float speed = 15f;
+    [SerializeField] private float lifeTime = 2f;
+    [SerializeField] private int damage = 1;
+    [SerializeField] private bool piercing = false;  // PiercingDecorator için
+
+    private Rigidbody2D rb;
+    private float spawnTime;
+
+    public int Damage { get; set; }
+    public bool Piercing { get; set; }
+
+    private void Awake() => rb = GetComponent<Rigidbody2D>();
+
+    public void Launch(Vector2 direction, int dmg, bool isPiercing)
     {
-        
+        Damage = dmg;
+        Piercing = isPiercing;
+        rb.linearVelocity = direction.normalized * speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    // === IPoolable ===
+    public void OnSpawn()
+    {
+        spawnTime = Time.time;
+        rb.linearVelocity = Vector2.zero;  // state reset
+    }
+
+    public void OnDespawn()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    private void Update()
     {
         
+        if (Time.time - spawnTime > lifeTime)
+            PoolManager.Instance.BulletPool.Return(this);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<IDamageable>(out var target) && target.IsAlive)
+        {
+            target.TakeDamage(Damage);
+
+            
+            PoolManager.Instance.HitEffectPool.Get(transform.position, Quaternion.identity);
+
+            if (!Piercing)
+                PoolManager.Instance.BulletPool.Return(this);
+        }
     }
 }
