@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class WeaponPickup : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private WeaponUpgradeType upgradeType;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.TryGetComponent<PlayerController>(out var pc))
+        {
+            pc.UpgradeWeapon(upgradeType);
+            Destroy(gameObject);
+        }
     }
 }

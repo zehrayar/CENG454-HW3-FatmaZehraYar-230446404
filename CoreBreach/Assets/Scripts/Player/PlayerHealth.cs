@@ -1,16 +1,23 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private int maxHealth = 5;
+
+    public int CurrentHealth { get; private set; }
+    public int MaxHealth => maxHealth;
+    public bool IsAlive => CurrentHealth > 0;
+
+    private void Awake()
     {
-        
+        CurrentHealth = maxHealth;
+        GameEvents.RaisePlayerHealthChanged(CurrentHealth, MaxHealth);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(int damage)
     {
-        
+        if (!IsAlive) return;
+        CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
+        GameEvents.RaisePlayerHealthChanged(CurrentHealth, MaxHealth);
     }
 }
