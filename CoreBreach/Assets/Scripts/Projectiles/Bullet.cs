@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour, IPoolable
             target.TakeDamage(Damage);
 
             
-            PoolManager.Instance.HitEffectPool.Get(transform.position, Quaternion.identity);
+            //PoolManager.Instance.HitEffectPool.Get(transform.position, Quaternion.identity);
 
             if (!Piercing)
                 PoolManager.Instance.BulletPool.Return(this);

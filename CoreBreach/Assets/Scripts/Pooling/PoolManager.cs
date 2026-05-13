@@ -8,9 +8,9 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private int bulletInitialSize = 30;
 
-    [Header("Hit Effect Pool")]
-    [SerializeField] private HitEffect hitEffectPrefab;
-    [SerializeField] private int hitEffectInitialSize = 15;
+    //[Header("Hit Effect Pool")]
+    //[SerializeField] private HitEffect hitEffectPrefab;
+    //[SerializeField] private int hitEffectInitialSize = 15;
 
     public ObjectPool<Bullet> BulletPool { get; private set; }
     public ObjectPool<HitEffect> HitEffectPool { get; private set; }
@@ -25,6 +25,6 @@ public class PoolManager : MonoBehaviour
         Instance = this;
 
         BulletPool = new ObjectPool<Bullet>(bulletPrefab, bulletInitialSize, transform);
-        HitEffectPool = new ObjectPool<HitEffect>(hitEffectPrefab, hitEffectInitialSize, transform);
+       // HitEffectPool = new ObjectPool<HitEffect>(hitEffectPrefab, hitEffectInitialSize, transform);
     }
 }
