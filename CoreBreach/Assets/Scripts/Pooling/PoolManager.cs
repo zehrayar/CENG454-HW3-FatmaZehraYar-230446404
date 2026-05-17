@@ -16,7 +16,7 @@ public class PoolManager : MonoBehaviour
     public ObjectPool<HitEffect> HitEffectPool { get; private set; }
 
     private void Awake()
-    {
+    {   
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -25,6 +25,6 @@ public class PoolManager : MonoBehaviour
         Instance = this;
 
         BulletPool = new ObjectPool<Bullet>(bulletPrefab, bulletInitialSize, transform);
-       // HitEffectPool = new ObjectPool<HitEffect>(hitEffectPrefab, hitEffectInitialSize, transform);
+       
     }
 }

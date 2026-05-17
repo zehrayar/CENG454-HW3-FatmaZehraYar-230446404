@@ -11,31 +11,37 @@ public class GameOverScreen : MonoBehaviour
 
     private void Awake()
     {
+        // Başlangıçta her iki panel de gizli
         winPanel.SetActive(false);
         losePanel.SetActive(false);
+
+        // Restart butonu GameManager.Restart'ı çağırsın
         restartButton.onClick.AddListener(() => GameManager.Instance.Restart());
     }
 
     private void OnEnable()
     {
-        GameEvents.OnAllWavesCompleted += ShowWin;
-        GameEvents.OnCoreDestroyed += ShowLose;
+        GameEvents.OnCoreDestroyed += HandleLose;
+        GameEvents.OnAllWavesCompleted += HandleWin;
     }
+
     private void OnDisable()
     {
-        GameEvents.OnAllWavesCompleted -= ShowWin;
-        GameEvents.OnCoreDestroyed -= ShowLose;
+        GameEvents.OnCoreDestroyed -= HandleLose;
+        GameEvents.OnAllWavesCompleted -= HandleWin;
     }
 
-    private void ShowWin()
+    private void HandleLose()
     {
-        winPanel.SetActive(true);
-        finalScoreText.text = $"FINAL SCORE: {GameManager.Instance.Score}";
-    }
-
-    private void ShowLose()
-    {
+        Debug.Log("ShowLose CALISTI");
         losePanel.SetActive(true);
-        finalScoreText.text = $"FINAL SCORE: {GameManager.Instance.Score}";
+        finalScoreText.text = $"SCORE: {GameManager.Instance.Score}";
+    }
+
+    private void HandleWin()
+    {
+        Debug.Log("ShowWin CALISTI");
+        winPanel.SetActive(true);
+        finalScoreText.text = $"SCORE: {GameManager.Instance.Score}";
     }
 }
