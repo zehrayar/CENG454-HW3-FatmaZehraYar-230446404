@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
             _ => weapon
         };
         GameEvents.RaiseWeaponUpgraded(type.ToString());
+        Debug.Log($"Weapon upgraded: {weapon.GetType().Name} wrapping {weapon}");
     }
 }
 

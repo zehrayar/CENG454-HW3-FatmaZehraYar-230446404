@@ -44,12 +44,13 @@ public class Bullet : MonoBehaviour, IPoolable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Player")) return;
         if (other.TryGetComponent<IDamageable>(out var target) && target.IsAlive)
         {
             target.TakeDamage(Damage);
 
             
-            //PoolManager.Instance.HitEffectPool.Get(transform.position, Quaternion.identity);
+           
 
             if (!Piercing)
                 PoolManager.Instance.BulletPool.Return(this);
